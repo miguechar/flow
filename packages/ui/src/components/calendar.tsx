@@ -1,14 +1,19 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { DayPicker } from "react-day-picker"
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
-import { cn } from "@workspace/ui/lib/utils"
-import { buttonVariants } from "@workspace/ui/components/button"
+import * as React from "react";
+import { DayPicker } from "react-day-picker";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { cn } from "@workspace/ui/lib/utils";
+import { buttonVariants } from "@workspace/ui/components/button";
 
-type CalendarProps = React.ComponentProps<typeof DayPicker>
+type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
-function Calendar({ className, classNames, showOutsideDays = true, ...props }: CalendarProps) {
+function Calendar({
+  className,
+  classNames,
+  showOutsideDays = true,
+  ...props
+}: CalendarProps) {
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
@@ -21,24 +26,25 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
         nav: "flex items-center gap-1",
         button_previous: cn(
           buttonVariants({ variant: "outline", size: "icon" }),
-          "absolute left-1 size-7 opacity-50 hover:opacity-100"
+          "absolute left-1 size-7 opacity-50 hover:opacity-100",
         ),
         button_next: cn(
           buttonVariants({ variant: "outline", size: "icon" }),
-          "absolute right-1 size-7 opacity-50 hover:opacity-100"
+          "absolute right-1 size-7 opacity-50 hover:opacity-100",
         ),
         month_grid: "w-full border-collapse",
         weekdays: "flex",
-        weekday: "text-muted-foreground rounded-md w-8 font-normal text-[0.8rem]",
+        weekday:
+          "text-muted-foreground rounded-md w-8 font-normal text-[0.8rem]",
         week: "flex w-full mt-2",
         day: cn(
           "relative p-0 text-center text-sm focus-within:relative focus-within:z-20",
           "[&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/50",
-          "[&:has([aria-selected].day-range-end)]:rounded-r-md"
+          "[&:has([aria-selected].day-range-end)]:rounded-r-md",
         ),
         day_button: cn(
           buttonVariants({ variant: "ghost", size: "icon" }),
-          "size-8 p-0 font-normal aria-selected:opacity-100"
+          "size-8 p-0 font-normal aria-selected:opacity-100",
         ),
         range_start: "day-range-start [&>button]:rounded-l-md",
         range_end: "day-range-end [&>button]:rounded-r-md",
@@ -63,7 +69,7 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
       }}
       {...props}
     />
-  )
+  );
 }
 
-export { Calendar }
+export { Calendar };

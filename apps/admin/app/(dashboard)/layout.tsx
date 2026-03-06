@@ -1,13 +1,17 @@
-import { headers } from "next/headers"
-import { redirect } from "next/navigation"
-import { auth } from "@/lib/auth"
-import { Sidebar } from "@/components/sidebar"
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { adminAuth } from "@repo/auth/auth";
+import { Sidebar } from "@/components/sidebar";
 
-export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const session = await auth.api.getSession({ headers: await headers() })
+export default async function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const session = await adminAuth.api.getSession({ headers: await headers() });
 
-  if (!session?.user) redirect("/login")
-  if (session.user.role !== "admin") redirect("/login")
+  if (!session?.user) redirect("/login");
+  if (session.user.role !== "admin") redirect("/login");
 
   return (
     <div className="flex min-h-screen">
@@ -16,5 +20,5 @@ export default async function DashboardLayout({ children }: { children: React.Re
         <main className="flex-1 p-8 overflow-auto">{children}</main>
       </div>
     </div>
-  )
+  );
 }

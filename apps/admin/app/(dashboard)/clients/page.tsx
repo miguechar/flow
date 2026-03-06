@@ -1,6 +1,7 @@
-import { db, user } from "@workspace/db"
-import { eq } from "drizzle-orm"
-import { format } from "date-fns"
+import { db } from "@repo/db/db";
+import { user } from "@repo/db/schema";
+import { eq } from "@repo/db/drizzle";
+import { format } from "date-fns";
 import {
   Table,
   TableBody,
@@ -8,15 +9,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@workspace/ui/components/table"
-import { Avatar, AvatarFallback } from "@workspace/ui/components/avatar"
+} from "@workspace/ui/components/table";
+import { Avatar, AvatarFallback } from "@workspace/ui/components/avatar";
 
 export default async function ClientsPage() {
   const clients = await db
     .select()
     .from(user)
     .where(eq(user.role, "client"))
-    .orderBy(user.createdAt)
+    .orderBy(user.createdAt);
 
   return (
     <div className="space-y-6">
@@ -40,7 +41,10 @@ export default async function ClientsPage() {
           <TableBody>
             {clients.length === 0 && (
               <TableRow>
-                <TableCell colSpan={4} className="text-center py-10 text-muted-foreground">
+                <TableCell
+                  colSpan={4}
+                  className="text-center py-10 text-muted-foreground"
+                >
                   No clients yet.
                 </TableCell>
               </TableRow>
@@ -62,12 +66,16 @@ export default async function ClientsPage() {
                     <span className="font-medium text-sm">{client.name}</span>
                   </div>
                 </TableCell>
-                <TableCell className="text-sm text-muted-foreground">{client.email}</TableCell>
+                <TableCell className="text-sm text-muted-foreground">
+                  {client.email}
+                </TableCell>
                 <TableCell className="text-sm text-muted-foreground">
                   {format(new Date(client.createdAt), "MMM d, yyyy")}
                 </TableCell>
                 <TableCell>
-                  <span className={`text-xs font-medium ${client.emailVerified ? "text-green-600" : "text-amber-600"}`}>
+                  <span
+                    className={`text-xs font-medium ${client.emailVerified ? "text-green-600" : "text-amber-600"}`}
+                  >
                     {client.emailVerified ? "Verified" : "Pending"}
                   </span>
                 </TableCell>
@@ -77,5 +85,5 @@ export default async function ClientsPage() {
         </Table>
       </div>
     </div>
-  )
+  );
 }

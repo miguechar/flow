@@ -1,5 +1,5 @@
-import Link from "next/link"
-import { LeafIcon, PhoneIcon, MailIcon, MapPinIcon } from "lucide-react"
+import Link from "next/link";
+import { LeafIcon, PhoneIcon, MailIcon, MapPinIcon } from "lucide-react";
 
 export function Footer() {
   return (
@@ -13,8 +13,9 @@ export function Footer() {
               <span>Flow Massage</span>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              A sanctuary of healing touch. We provide personalized massage therapy
-              to restore balance, relieve tension, and renew your well-being.
+              A sanctuary of healing touch. We provide personalized massage
+              therapy to restore balance, relieve tension, and renew your
+              well-being.
             </p>
           </div>
 
@@ -62,7 +63,8 @@ export function Footer() {
               </a>
               <div className="flex items-start gap-2 text-sm text-muted-foreground">
                 <MapPinIcon className="size-4 shrink-0 mt-0.5" />
-                123 Wellness Way, Suite 100<br />
+                123 Wellness Way, Suite 100
+                <br />
                 Your City, ST 00000
               </div>
             </div>
@@ -70,14 +72,19 @@ export function Footer() {
         </div>
 
         <div className="mt-10 pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
-          <span>&copy; {new Date().getFullYear()} Flow Massage. All rights reserved.</span>
+          <span>
+            &copy; {new Date().getFullYear()} Flow Massage. All rights reserved.
+          </span>
           <div className="flex gap-4">
-            <Link href="/request" className="hover:text-foreground transition-colors">
+            <Link
+              href="/request"
+              className="hover:text-foreground transition-colors"
+            >
               Book an Appointment
             </Link>
           </div>
         </div>
       </div>
     </footer>
-  )
+  );
 }

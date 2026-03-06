@@ -1,42 +1,42 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useSearchParams } from "next/navigation"
-import { LeafIcon, Loader2Icon, MailIcon } from "lucide-react"
-import { toast } from "sonner"
-import { Button } from "@workspace/ui/components/button"
-import { Input } from "@workspace/ui/components/input"
-import { Label } from "@workspace/ui/components/label"
+import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { LeafIcon, Loader2Icon, MailIcon } from "lucide-react";
+import { toast } from "sonner";
+import { Button } from "@workspace/ui/components/button";
+import { Input } from "@workspace/ui/components/input";
+import { Label } from "@workspace/ui/components/label";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@workspace/ui/components/card"
-import { signIn } from "@/lib/auth-client"
+} from "@workspace/ui/components/card";
+import { webAuth } from "@repo/auth/auth";
 
 export default function SignInPage() {
-  const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get("callbackUrl") ?? "/book"
-  const [email, setEmail] = useState("")
-  const [sent, setSent] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") ?? "/book";
+  const [email, setEmail] = useState("");
+  const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!email) return
-    setLoading(true)
+    e.preventDefault();
+    if (!email) return;
+    setLoading(true);
     try {
-      await signIn.magicLink({
+      await webAuth.api.signInMagicLink({
         email,
         callbackURL: callbackUrl,
-      })
-      setSent(true)
+      });
+      setSent(true);
     } catch {
-      toast.error("Failed to send magic link. Please try again.")
+      toast.error("Failed to send magic link. Please try again.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -56,8 +56,8 @@ export default function SignInPage() {
               <CardHeader className="text-center">
                 <CardTitle>Sign In</CardTitle>
                 <CardDescription>
-                  Enter your email and we&apos;ll send you a magic link to sign in instantly.
-                  No password needed.
+                  Enter your email and we&apos;ll send you a magic link to sign
+                  in instantly. No password needed.
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -95,8 +95,8 @@ export default function SignInPage() {
               <div>
                 <h2 className="font-semibold text-lg mb-1">Check your inbox</h2>
                 <p className="text-muted-foreground text-sm">
-                  We sent a sign-in link to <strong>{email}</strong>.
-                  Click it to access your booking.
+                  We sent a sign-in link to <strong>{email}</strong>. Click it
+                  to access your booking.
                 </p>
               </div>
               <p className="text-xs text-muted-foreground">
@@ -115,5 +115,5 @@ export default function SignInPage() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

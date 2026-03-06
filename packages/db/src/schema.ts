@@ -5,7 +5,7 @@ import {
   pgTable,
   text,
   timestamp,
-} from "drizzle-orm/pg-core"
+} from "drizzle-orm/pg-core";
 
 // ─── BetterAuth required tables ───────────────────────────────────────────────
 
@@ -18,7 +18,7 @@ export const user = pgTable("user", {
   role: text("role").notNull().default("client"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
-})
+});
 
 export const session = pgTable("session", {
   id: text("id").primaryKey(),
@@ -31,7 +31,7 @@ export const session = pgTable("session", {
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-})
+});
 
 export const account = pgTable("account", {
   id: text("id").primaryKey(),
@@ -48,7 +48,7 @@ export const account = pgTable("account", {
   password: text("password"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
-})
+});
 
 export const verification = pgTable("verification", {
   id: text("id").primaryKey(),
@@ -57,7 +57,7 @@ export const verification = pgTable("verification", {
   expiresAt: timestamp("expires_at").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
-})
+});
 
 // ─── App tables ───────────────────────────────────────────────────────────────
 
@@ -65,14 +65,14 @@ export const requestStatusEnum = pgEnum("request_status", [
   "pending",
   "approved",
   "rejected",
-])
+]);
 
 export const appointmentStatusEnum = pgEnum("appointment_status", [
   "scheduled",
   "completed",
   "cancelled",
   "no_show",
-])
+]);
 
 export const appointmentRequests = pgTable("appointment_requests", {
   id: text("id").primaryKey(),
@@ -86,7 +86,7 @@ export const appointmentRequests = pgTable("appointment_requests", {
   notes: text("notes"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
-})
+});
 
 export const appointments = pgTable("appointments", {
   id: text("id").primaryKey(),
@@ -109,7 +109,7 @@ export const appointments = pgTable("appointments", {
   policyAgreedAt: timestamp("policy_agreed_at"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
-})
+});
 
 export const policies = pgTable("policies", {
   id: text("id").primaryKey(),
@@ -119,12 +119,12 @@ export const policies = pgTable("policies", {
   isActive: boolean("is_active").notNull().default(true),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
-})
+});
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-export type User = typeof user.$inferSelect
-export type Session = typeof session.$inferSelect
-export type AppointmentRequest = typeof appointmentRequests.$inferSelect
-export type Appointment = typeof appointments.$inferSelect
-export type Policy = typeof policies.$inferSelect
+export type User = typeof user.$inferSelect;
+export type Session = typeof session.$inferSelect;
+export type AppointmentRequest = typeof appointmentRequests.$inferSelect;
+export type Appointment = typeof appointments.$inferSelect;
+export type Policy = typeof policies.$inferSelect;

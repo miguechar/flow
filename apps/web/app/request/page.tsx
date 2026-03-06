@@ -1,11 +1,12 @@
-import type { Metadata } from "next"
-import { RequestForm } from "./request-form"
-import { LeafIcon, ClockIcon, ShieldCheckIcon } from "lucide-react"
+import type { Metadata } from "next";
+import { RequestForm } from "./request-form";
+import { LeafIcon, ClockIcon, ShieldCheckIcon } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Request an Appointment | Flow Massage",
-  description: "Request a massage appointment at Flow Massage. We'll be in touch to confirm your booking.",
-}
+  description:
+    "Request a massage appointment at Flow Massage. We'll be in touch to confirm your booking.",
+};
 
 export default function RequestPage() {
   return (
@@ -19,8 +20,9 @@ export default function RequestPage() {
                 Request an Appointment
               </h1>
               <p className="text-muted-foreground text-lg leading-relaxed">
-                Fill out the form and your therapist will reach out within 24 hours to
-                confirm availability and send you a personalized booking link.
+                Fill out the form and your therapist will reach out within 24
+                hours to confirm availability and send you a personalized
+                booking link.
               </p>
             </div>
 
@@ -32,8 +34,9 @@ export default function RequestPage() {
                 <div>
                   <h3 className="font-semibold mb-1">No Account Needed</h3>
                   <p className="text-sm text-muted-foreground">
-                    Just leave your contact information. We&apos;ll handle the rest and send
-                    you a magic link when your request is approved.
+                    Just leave your contact information. We&apos;ll handle the
+                    rest and send you a magic link when your request is
+                    approved.
                   </p>
                 </div>
               </div>
@@ -43,10 +46,12 @@ export default function RequestPage() {
                   <ClockIcon className="size-5 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-semibold mb-1">Response Within 24 Hours</h3>
+                  <h3 className="font-semibold mb-1">
+                    Response Within 24 Hours
+                  </h3>
                   <p className="text-sm text-muted-foreground">
-                    Your therapist personally reviews every request and will contact you
-                    as soon as possible to arrange your session.
+                    Your therapist personally reviews every request and will
+                    contact you as soon as possible to arrange your session.
                   </p>
                 </div>
               </div>
@@ -58,8 +63,9 @@ export default function RequestPage() {
                 <div>
                   <h3 className="font-semibold mb-1">Secure Booking</h3>
                   <p className="text-sm text-muted-foreground">
-                    Payment information is collected securely at the time of booking through
-                    Stripe. No charge is made until after your session.
+                    Payment information is collected securely at the time of
+                    booking through Stripe. No charge is made until after your
+                    session.
                   </p>
                 </div>
               </div>
@@ -71,5 +77,5 @@ export default function RequestPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,6 +1,7 @@
-import { NextResponse } from "next/server"
-import { db, policies } from "@workspace/db"
-import { eq } from "drizzle-orm"
+import { NextResponse } from "next/server";
+import { policies } from "@repo/db/schema";
+import { db } from "@repo/db/db";
+import { eq } from "@repo/db/drizzle";
 
 export async function GET() {
   try {
@@ -8,7 +9,7 @@ export async function GET() {
       .select()
       .from(policies)
       .where(eq(policies.isActive, true))
-      .limit(1)
+      .limit(1);
 
     if (!policy) {
       // Return a default policy if none in DB
@@ -17,13 +18,16 @@ export async function GET() {
         title: "Clinic Policy",
         content: DEFAULT_POLICY,
         version: 1,
-      })
+      });
     }
 
-    return NextResponse.json(policy)
+    return NextResponse.json(policy);
   } catch (error) {
-    console.error(error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    console.error(error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 }
 
@@ -47,4 +51,4 @@ Your personal and health information is kept strictly confidential and will neve
 We reserve the right to end any session and charge in full if a client behaves inappropriately. Sexual misconduct will result in immediate termination of the session and will be reported to authorities.
 
 By booking an appointment, you agree to all of the above policies.
-`.trim()
+`.trim();

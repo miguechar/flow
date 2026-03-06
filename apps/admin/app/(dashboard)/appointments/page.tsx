@@ -1,6 +1,7 @@
-import { db, appointments, user } from "@workspace/db"
-import { eq } from "drizzle-orm"
-import { AppointmentsTable } from "./appointments-table"
+import { db } from "@repo/db/db";
+import { appointments, user } from "@repo/db/schema";
+import { eq } from "@repo/db/drizzle";
+import { AppointmentsTable } from "./appointments-table";
 
 export default async function AppointmentsPage() {
   const rows = await db
@@ -21,7 +22,7 @@ export default async function AppointmentsPage() {
     })
     .from(appointments)
     .leftJoin(user, eq(appointments.userId, user.id))
-    .orderBy(appointments.date)
+    .orderBy(appointments.date);
 
   return (
     <div className="space-y-6">
@@ -33,5 +34,5 @@ export default async function AppointmentsPage() {
       </div>
       <AppointmentsTable initialAppointments={rows} />
     </div>
-  )
+  );
 }

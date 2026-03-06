@@ -1,29 +1,32 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { useState } from "react"
-import { MenuIcon, XIcon, LeafIcon } from "lucide-react"
-import { Button } from "@workspace/ui/components/button"
-import { cn } from "@workspace/ui/lib/utils"
-import { signOut, useSession } from "@/lib/auth-client"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { MenuIcon, XIcon, LeafIcon } from "lucide-react";
+import { Button } from "@workspace/ui/components/button";
+import { cn } from "@workspace/ui/lib/utils";
+import { authClient } from "@repo/auth/auth-client";
 
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/request", label: "Book Now" },
-]
+];
 
 export function Navbar() {
-  const pathname = usePathname()
-  const [open, setOpen] = useState(false)
-  const { data: session } = useSession()
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+  const { data: session } = authClient.useSession();
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex h-16 items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 font-semibold text-lg">
+        <Link
+          href="/"
+          className="flex items-center gap-2 font-semibold text-lg"
+        >
           <LeafIcon className="size-5 text-primary" />
           <span className="text-foreground">Flow Massage</span>
         </Link>
@@ -38,7 +41,7 @@ export function Navbar() {
                 "px-4 py-2 rounded-lg text-sm font-medium transition-colors",
                 pathname === link.href
                   ? "text-primary bg-primary/10"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted",
               )}
             >
               {link.label}
@@ -52,7 +55,7 @@ export function Navbar() {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => signOut()}
+                onClick={() => authClient.signOut()}
               >
                 Sign Out
               </Button>
@@ -66,7 +69,11 @@ export function Navbar() {
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
         >
-          {open ? <XIcon className="size-5" /> : <MenuIcon className="size-5" />}
+          {open ? (
+            <XIcon className="size-5" />
+          ) : (
+            <MenuIcon className="size-5" />
+          )}
         </button>
       </div>
 
@@ -82,7 +89,7 @@ export function Navbar() {
                   "px-4 py-2.5 rounded-lg text-sm font-medium transition-colors",
                   pathname === link.href
                     ? "text-primary bg-primary/10"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted",
                 )}
                 onClick={() => setOpen(false)}
               >
@@ -100,7 +107,10 @@ export function Navbar() {
                 </Link>
                 <button
                   className="px-4 py-2.5 rounded-lg text-sm font-medium text-left text-muted-foreground hover:text-foreground hover:bg-muted"
-                  onClick={() => { signOut(); setOpen(false) }}
+                  onClick={() => {
+                    signOut();
+                    setOpen(false);
+                  }}
                 >
                   Sign Out
                 </button>
@@ -110,5 +120,5 @@ export function Navbar() {
         </div>
       )}
     </header>
-  )
+  );
 }

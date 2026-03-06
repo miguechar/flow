@@ -1,18 +1,19 @@
-import type { Metadata } from "next"
-import { headers } from "next/headers"
-import { redirect } from "next/navigation"
-import { auth } from "@/repo/auth/auth"
-import {db} from "@repo/db/db"
-import { eq, and } from "@repo/db/drizzle"
-import { BookingFlow } from "./booking-flow"
+import type { Metadata } from "next";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { webAuth } from "@repo/auth/auth";
+import { db } from "@repo/db/db";
+import { appointmentRequests, appointments } from "@repo/db/schema";
+import { eq, and } from "@repo/db/drizzle";
+import { BookingFlow } from "./booking-flow";
 
 export const metadata: Metadata = {
   title: "Book Your Appointment | Flow Massage",
-}
+};
 
 export default async function BookPage() {
-  const session = await auth.api.getSession({ headers: await headers() })
-  if (!session?.user) redirect("/auth/sign-in?callbackUrl=/book")
+  const session = await webAuth.api.getSession({ headers: await headers() });
+  if (!session?.user) redirect("/auth/sign-in?callbackUrl=/book");
 
   // Find approved request for this user's email
   const [request] = await db
@@ -21,10 +22,10 @@ export default async function BookPage() {
     .where(
       and(
         eq(appointmentRequests.email, session.user.email),
-        eq(appointmentRequests.status, "approved")
-      )
+        eq(appointmentRequests.status, "approved"),
+      ),
     )
-    .limit(1)
+    .limit(1);
 
   // Check if they already have a scheduled appointment
   if (request) {
@@ -34,18 +35,18 @@ export default async function BookPage() {
       .where(
         and(
           eq(appointments.requestId, request.id),
-          eq(appointments.status, "scheduled")
-        )
+          eq(appointments.status, "scheduled"),
+        ),
       )
-      .limit(1)
+      .limit(1);
 
     if (existing) {
-      return <AppointmentConfirmed appointment={existing} />
+      return <AppointmentConfirmed appointment={existing} />;
     }
   }
 
   if (!request) {
-    return <NoPendingRequest email={session.user.email} />
+    return <NoPendingRequest email={session.user.email} />;
   }
 
   return (
@@ -54,7 +55,7 @@ export default async function BookPage() {
       userEmail={session.user.email}
       userName={session.user.name}
     />
-  )
+  );
 }
 
 function NoPendingRequest({ email }: { email: string }) {
@@ -78,10 +79,14 @@ function NoPendingRequest({ email }: { email: string }) {
         </p>
       </div>
     </div>
-  )
+  );
 }
 
-function AppointmentConfirmed({ appointment }: { appointment: { date: string; startTime: string; serviceType: string } }) {
+function AppointmentConfirmed({
+  appointment,
+}: {
+  appointment: { date: string; startTime: string; serviceType: string };
+}) {
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-16rem)] px-4 py-16">
       <div className="text-center max-w-sm space-y-4">
@@ -90,8 +95,8 @@ function AppointmentConfirmed({ appointment }: { appointment: { date: string; st
         </div>
         <h2 className="text-xl font-semibold">You&apos;re All Set!</h2>
         <p className="text-muted-foreground text-sm">
-          Your <strong>{appointment.serviceType}</strong> appointment is scheduled
-          for <strong>{appointment.date}</strong> at{" "}
+          Your <strong>{appointment.serviceType}</strong> appointment is
+          scheduled for <strong>{appointment.date}</strong> at{" "}
           <strong>{appointment.startTime}</strong>.
         </p>
         <p className="text-muted-foreground text-xs">
@@ -102,5 +107,5 @@ function AppointmentConfirmed({ appointment }: { appointment: { date: string; st
         </p>
       </div>
     </div>
-  )
+  );
 }

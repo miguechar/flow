@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { format } from "date-fns"
-import { toast } from "sonner"
-import { CheckIcon, XIcon, Loader2Icon, ChevronDownIcon } from "lucide-react"
-import { Button } from "@workspace/ui/components/button"
-import { Badge } from "@workspace/ui/components/badge"
+import { useState } from "react";
+import { format } from "date-fns";
+import { toast } from "sonner";
+import { CheckIcon, XIcon, Loader2Icon, ChevronDownIcon } from "lucide-react";
+import { Button } from "@workspace/ui/components/button";
+import { Badge } from "@workspace/ui/components/badge";
 import {
   Table,
   TableBody,
@@ -13,7 +13,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@workspace/ui/components/table"
+} from "@workspace/ui/components/table";
 import {
   Dialog,
   DialogContent,
@@ -21,54 +21,67 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@workspace/ui/components/dialog"
-import { Textarea } from "@workspace/ui/components/textarea"
-import { Tabs, TabsList, TabsTrigger } from "@workspace/ui/components/tabs"
-import type { AppointmentRequest } from "@workspace/db"
+} from "@workspace/ui/components/dialog";
+import { Textarea } from "@workspace/ui/components/textarea";
+import { Tabs, TabsList, TabsTrigger } from "@workspace/ui/components/tabs";
+import type { AppointmentRequest } from "@repo/db/schema";
 
-type Status = "all" | "pending" | "approved" | "rejected"
+type Status = "all" | "pending" | "approved" | "rejected";
 
-export function RequestsTable({ initialRequests }: { initialRequests: AppointmentRequest[] }) {
-  const [requests, setRequests] = useState(initialRequests)
-  const [filter, setFilter] = useState<Status>("pending")
-  const [rejectDialog, setRejectDialog] = useState<AppointmentRequest | null>(null)
-  const [rejectNote, setRejectNote] = useState("")
-  const [loading, setLoading] = useState<string | null>(null)
+export function RequestsTable({
+  initialRequests,
+}: {
+  initialRequests: AppointmentRequest[];
+}) {
+  const [requests, setRequests] = useState(initialRequests);
+  const [filter, setFilter] = useState<Status>("pending");
+  const [rejectDialog, setRejectDialog] = useState<AppointmentRequest | null>(
+    null,
+  );
+  const [rejectNote, setRejectNote] = useState("");
+  const [loading, setLoading] = useState<string | null>(null);
 
-  const filtered = filter === "all" ? requests : requests.filter((r) => r.status === filter)
+  const filtered =
+    filter === "all" ? requests : requests.filter((r) => r.status === filter);
 
-  async function updateStatus(id: string, status: "approved" | "rejected", notes?: string) {
-    setLoading(id)
+  async function updateStatus(
+    id: string,
+    status: "approved" | "rejected",
+    notes?: string,
+  ) {
+    setLoading(id);
     try {
       const res = await fetch(`/api/requests/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status, notes }),
-      })
-      if (!res.ok) throw new Error("Failed to update")
+      });
+      if (!res.ok) throw new Error("Failed to update");
 
       setRequests((prev) =>
-        prev.map((r) => (r.id === id ? { ...r, status, notes: notes ?? r.notes } : r))
-      )
+        prev.map((r) =>
+          r.id === id ? { ...r, status, notes: notes ?? r.notes } : r,
+        ),
+      );
       toast.success(
         status === "approved"
           ? "Request approved. Magic link sent to client."
-          : "Request rejected."
-      )
+          : "Request rejected.",
+      );
     } catch {
-      toast.error("Failed to update request. Please try again.")
+      toast.error("Failed to update request. Please try again.");
     } finally {
-      setLoading(null)
-      setRejectDialog(null)
-      setRejectNote("")
+      setLoading(null);
+      setRejectDialog(null);
+      setRejectNote("");
     }
   }
 
   const statusBadge = (status: string) => {
-    if (status === "pending") return <Badge variant="warning">Pending</Badge>
-    if (status === "approved") return <Badge variant="success">Approved</Badge>
-    return <Badge variant="destructive">Rejected</Badge>
-  }
+    if (status === "pending") return <Badge variant="warning">Pending</Badge>;
+    if (status === "approved") return <Badge variant="success">Approved</Badge>;
+    return <Badge variant="destructive">Rejected</Badge>;
+  };
 
   return (
     <>
@@ -101,7 +114,10 @@ export function RequestsTable({ initialRequests }: { initialRequests: Appointmen
           <TableBody>
             {filtered.length === 0 && (
               <TableRow>
-                <TableCell colSpan={6} className="text-center py-10 text-muted-foreground">
+                <TableCell
+                  colSpan={6}
+                  className="text-center py-10 text-muted-foreground"
+                >
                   No {filter === "all" ? "" : filter} requests.
                 </TableCell>
               </TableRow>
@@ -152,7 +168,9 @@ export function RequestsTable({ initialRequests }: { initialRequests: Appointmen
                     </div>
                   )}
                   {req.status !== "pending" && (
-                    <span className="text-xs text-muted-foreground">{req.notes ?? "—"}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {req.notes ?? "—"}
+                    </span>
                   )}
                 </TableCell>
               </TableRow>
@@ -167,7 +185,8 @@ export function RequestsTable({ initialRequests }: { initialRequests: Appointmen
           <DialogHeader>
             <DialogTitle>Reject Request</DialogTitle>
             <DialogDescription>
-              Optionally add a note for {rejectDialog?.name} explaining why their request was rejected.
+              Optionally add a note for {rejectDialog?.name} explaining why
+              their request was rejected.
             </DialogDescription>
           </DialogHeader>
           <Textarea
@@ -183,7 +202,10 @@ export function RequestsTable({ initialRequests }: { initialRequests: Appointmen
             <Button
               variant="destructive"
               disabled={loading === rejectDialog?.id}
-              onClick={() => rejectDialog && updateStatus(rejectDialog.id, "rejected", rejectNote)}
+              onClick={() =>
+                rejectDialog &&
+                updateStatus(rejectDialog.id, "rejected", rejectNote)
+              }
             >
               {loading === rejectDialog?.id ? (
                 <Loader2Icon className="size-4 animate-spin" />
@@ -195,5 +217,5 @@ export function RequestsTable({ initialRequests }: { initialRequests: Appointmen
         </DialogContent>
       </Dialog>
     </>
-  )
+  );
 }

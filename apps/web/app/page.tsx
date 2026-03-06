@@ -1,4 +1,4 @@
-import Link from "next/link"
+import Link from "next/link";
 import {
   ArrowRightIcon,
   CalendarIcon,
@@ -7,16 +7,16 @@ import {
   ClockIcon,
   ShieldCheckIcon,
   SparklesIcon,
-} from "lucide-react"
-import { Button } from "@workspace/ui/components/button"
+} from "lucide-react";
+import { Button } from "@workspace/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@workspace/ui/components/card"
-import { Badge } from "@workspace/ui/components/badge"
+} from "@workspace/ui/components/card";
+import { Badge } from "@workspace/ui/components/badge";
 
 const services = [
   {
@@ -47,7 +47,7 @@ const services = [
       "Specially adapted massage for expectant mothers to relieve pregnancy discomforts, reduce swelling, and support overall well-being.",
     icon: LeafIcon,
   },
-]
+];
 
 const steps = [
   {
@@ -71,7 +71,7 @@ const steps = [
       "Sign in with your magic link, pick a date that works for you, agree to the clinic policy, and save your payment info.",
     icon: ClockIcon,
   },
-]
+];
 
 export default function HomePage() {
   return (
@@ -79,16 +79,19 @@ export default function HomePage() {
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-br from-background via-secondary/30 to-accent/20 py-24 md:py-36">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
-          <Badge variant="secondary" className="mb-6 text-xs font-medium tracking-wide uppercase">
+          <Badge
+            variant="secondary"
+            className="mb-6 text-xs font-medium tracking-wide uppercase"
+          >
             Therapeutic Massage Therapy
           </Badge>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground mb-6 leading-tight">
-            Find Your{" "}
-            <span className="text-primary">Flow</span>
+            Find Your <span className="text-primary">Flow</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
-            Experience the healing power of personalized massage therapy. We restore
-            balance, relieve tension, and renew your sense of well-being — one session at a time.
+            Experience the healing power of personalized massage therapy. We
+            restore balance, relieve tension, and renew your sense of well-being
+            — one session at a time.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/request">
@@ -118,12 +121,13 @@ export default function HomePage() {
               Our Services
             </h2>
             <p className="text-muted-foreground text-lg max-w-xl mx-auto">
-              Each session is tailored to your individual needs, helping you achieve lasting relief and deep restoration.
+              Each session is tailored to your individual needs, helping you
+              achieve lasting relief and deep restoration.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {services.map((service) => {
-              const Icon = service.icon
+              const Icon = service.icon;
               return (
                 <Card
                   key={service.name}
@@ -134,7 +138,10 @@ export default function HomePage() {
                       <Icon className="size-5 text-primary" />
                     </div>
                     <CardTitle className="text-base">{service.name}</CardTitle>
-                    <Badge variant="outline" className="w-fit text-xs font-normal">
+                    <Badge
+                      variant="outline"
+                      className="w-fit text-xs font-normal"
+                    >
                       {service.duration}
                     </Badge>
                   </CardHeader>
@@ -144,7 +151,7 @@ export default function HomePage() {
                     </CardDescription>
                   </CardContent>
                 </Card>
-              )
+              );
             })}
           </div>
         </div>
@@ -163,9 +170,12 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {steps.map((step, i) => {
-              const Icon = step.icon
+              const Icon = step.icon;
               return (
-                <div key={step.number} className="relative flex flex-col items-center text-center">
+                <div
+                  key={step.number}
+                  className="relative flex flex-col items-center text-center"
+                >
                   {/* Connector line */}
                   {i < steps.length - 1 && (
                     <div className="hidden md:block absolute top-8 left-[calc(50%+2.5rem)] right-[-calc(50%-2.5rem)] h-px bg-border" />
@@ -173,11 +183,15 @@ export default function HomePage() {
                   <div className="size-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 relative z-10">
                     <Icon className="size-7 text-primary" />
                   </div>
-                  <span className="text-xs font-mono text-muted-foreground mb-1">{step.number}</span>
+                  <span className="text-xs font-mono text-muted-foreground mb-1">
+                    {step.number}
+                  </span>
                   <h3 className="font-semibold text-lg mb-2">{step.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{step.description}</p>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    {step.description}
+                  </p>
                 </div>
-              )
+              );
             })}
           </div>
           <div className="text-center mt-12">
@@ -199,7 +213,8 @@ export default function HomePage() {
             Ready to Feel the Difference?
           </h2>
           <p className="text-lg opacity-80 mb-8 max-w-lg mx-auto">
-            Take the first step toward relief, relaxation, and renewal. Your body deserves it.
+            Take the first step toward relief, relaxation, and renewal. Your
+            body deserves it.
           </p>
           <Link href="/request">
             <Button
@@ -214,5 +229,5 @@ export default function HomePage() {
         </div>
       </section>
     </div>
-  )
+  );
 }

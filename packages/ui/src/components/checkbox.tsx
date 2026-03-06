@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Checkbox as CheckboxPrimitive } from "radix-ui"
-import { CheckIcon } from "lucide-react"
-import { cn } from "@workspace/ui/lib/utils"
+import * as React from "react";
+import { Checkbox as CheckboxPrimitive } from "radix-ui";
+import { CheckIcon } from "lucide-react";
+import { cn } from "@workspace/ui/lib/utils";
 
 function Checkbox({
   className,
@@ -14,7 +14,7 @@ function Checkbox({
       data-slot="checkbox"
       className={cn(
         "border-input ring-offset-background focus-visible:ring-ring peer size-4 shrink-0 rounded-sm border shadow-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-primary",
-        className
+        className,
       )}
       {...props}
     >
@@ -22,7 +22,7 @@ function Checkbox({
         <CheckIcon className="size-3.5" />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
-  )
+  );
 }
 
-export { Checkbox }
+export { Checkbox };

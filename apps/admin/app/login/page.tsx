@@ -1,43 +1,43 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { LeafIcon, Loader2Icon } from "lucide-react"
-import { toast } from "sonner"
-import { Button } from "@workspace/ui/components/button"
-import { Input } from "@workspace/ui/components/input"
-import { Label } from "@workspace/ui/components/label"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { LeafIcon, Loader2Icon } from "lucide-react";
+import { toast } from "sonner";
+import { Button } from "@workspace/ui/components/button";
+import { Input } from "@workspace/ui/components/input";
+import { Label } from "@workspace/ui/components/label";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@workspace/ui/components/card"
-import { signIn } from "@/lib/auth-client"
+} from "@workspace/ui/components/card";
+import { authClient } from "@repo/auth/auth-client";
 
 export default function LoginPage() {
-  const router = useRouter()
-  const [loading, setLoading] = useState(false)
-  const [form, setForm] = useState({ email: "", password: "" })
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({ email: "", password: "" });
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
     try {
-      const res = await signIn.email({
+      const res = await authClient.signIn.email({
         email: form.email,
         password: form.password,
-      })
+      });
       if (res.error) {
-        toast.error(res.error.message ?? "Invalid credentials")
+        toast.error(res.error.message ?? "Invalid credentials");
       } else {
-        router.push("/")
+        router.push("/");
       }
     } catch {
-      toast.error("Sign in failed. Please try again.")
+      toast.error("Sign in failed. Please try again.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -53,7 +53,9 @@ export default function LoginPage() {
         <Card>
           <CardHeader className="text-center">
             <CardTitle>Admin Sign In</CardTitle>
-            <CardDescription>Sign in to manage appointments and clients.</CardDescription>
+            <CardDescription>
+              Sign in to manage appointments and clients.
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -74,7 +76,9 @@ export default function LoginPage() {
                   id="password"
                   type="password"
                   value={form.password}
-                  onChange={(e) => setForm({ ...form, password: e.target.value })}
+                  onChange={(e) =>
+                    setForm({ ...form, password: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -93,5 +97,5 @@ export default function LoginPage() {
         </Card>
       </div>
     </div>
-  )
+  );
 }
