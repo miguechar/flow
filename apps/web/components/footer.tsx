@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LeafIcon, PhoneIcon, MailIcon, MapPinIcon } from "lucide-react";
+import { constants } from "@repo/constants";
 
 export function Footer() {
   return (
@@ -48,22 +49,22 @@ export function Footer() {
             </h3>
             <div className="flex flex-col gap-2">
               <a
-                href="tel:+15550000000"
+                href={`tel:${constants.contact.phone}`}
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 <PhoneIcon className="size-4 shrink-0" />
-                (555) 000-0000
+                {constants.contact.phone}
               </a>
               <a
                 href="mailto:hello@flowmassage.com"
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 <MailIcon className="size-4 shrink-0" />
-                hello@flowmassage.com
+                {constants.contact.email}
               </a>
               <div className="flex items-start gap-2 text-sm text-muted-foreground">
                 <MapPinIcon className="size-4 shrink-0 mt-0.5" />
-                123 Wellness Way, Suite 100
+                {constants.contact.address}
                 <br />
                 Your City, ST 00000
               </div>

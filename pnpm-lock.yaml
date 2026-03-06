@@ -102,6 +102,9 @@ importers:
       '@repo/auth':
         specifier: workspace:*
         version: link:../../packages/auth
+      '@repo/constants':
+        specifier: workspace:*
+        version: link:../../packages/contants
       '@repo/db':
         specifier: workspace:*
         version: link:../../packages/db
@@ -187,6 +190,8 @@ importers:
       resend:
         specifier: ^6.9.2
         version: 6.9.3
+
+  packages/contants: {}
 
   packages/db:
     dependencies:

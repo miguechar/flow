@@ -17,6 +17,7 @@
     "@stripe/stripe-js": "^8.9.0",
     "@repo/auth": "workspace:*",
     "@repo/db": "workspace:*",
+    "@repo/constants": "workspace:*",
     "@workspace/ui": "workspace:*",
     "date-fns": "^4.1.0",
     "lucide-react": "^0.563.0",
