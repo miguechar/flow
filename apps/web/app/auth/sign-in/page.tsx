@@ -15,10 +15,11 @@ import {
   CardTitle,
 } from "@workspace/ui/components/card";
 import { webAuth } from "@repo/auth/auth";
+import { authClient } from "@repo/auth/auth-client";
 
 export default function SignInPage() {
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") ?? "/book";
+  const callbackUrl = searchParams.get("callbackUrl") ?? ("/book" as string);
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -28,10 +29,16 @@ export default function SignInPage() {
     if (!email) return;
     setLoading(true);
     try {
-      await webAuth.api.signInMagicLink({
+      const { data, error } = await authClient.signIn.magicLink({
         email,
         callbackURL: callbackUrl,
       });
+      // await webAuth.api.signInMagicLink({
+      //   body: {
+      //     email,
+      //     callbackUrl,
+      //   }
+      // });
       setSent(true);
     } catch {
       toast.error("Failed to send magic link. Please try again.");

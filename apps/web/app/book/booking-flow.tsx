@@ -36,7 +36,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@workspace/ui/components/dialog";
-import type { AppointmentRequest } from "@workspace/db";
+import type { AppointmentRequest } from "@repo/db/schema";
 
 const stripePromise = loadStripe(
   process.env["NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY"]!,

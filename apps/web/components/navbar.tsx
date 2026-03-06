@@ -108,7 +108,7 @@ export function Navbar() {
                 <button
                   className="px-4 py-2.5 rounded-lg text-sm font-medium text-left text-muted-foreground hover:text-foreground hover:bg-muted"
                   onClick={() => {
-                    signOut();
+                    authClient.signOut();
                     setOpen(false);
                   }}
                 >
