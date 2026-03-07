@@ -5,6 +5,7 @@ import { db } from "@repo/db/db";
 import { eq } from "@repo/db/drizzle";
 import { headers } from "next/headers";
 import { z } from "zod";
+import { getResend } from "@repo/auth/resend";
 
 async function requireAdmin() {
   const session = await adminAuth.api.getSession({ headers: await headers() });
@@ -61,6 +62,19 @@ export async function PATCH(
         name: request.name as string,
       },
     });
+
+    const resend = getResend();
+    const promise = resend.emails.send({
+      from: "Charry With an A <admin@charrywithana.com>",
+      to: request.email as string,
+      subject: "Welcome to Charry With an A",
+      text: `Welcome to Charry With an A! Click the link to sign in`,
+    });
+    if (request) {
+      (request as any).waitUntil?.(promise);
+    } else {
+      void promise;
+    }
   }
 
   return NextResponse.json({ success: true });
