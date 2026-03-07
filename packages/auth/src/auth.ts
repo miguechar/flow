@@ -3,6 +3,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { magicLink } from "better-auth/plugins";
 import { db } from "@repo/db/db";
 import * as schema from "@repo/db/schema";
+import { getResend } from "./lib/resend";
 
 const sharedConfig = {
   database: drizzleAdapter(db, {
@@ -30,10 +31,24 @@ const sharedConfig = {
 export const webAuth = betterAuth({
   ...sharedConfig,
   baseURL: process.env["BETTER_AUTH_URL"] ?? "http://localhost:3000",
+  emailAndPassword: { enabled: true },
   plugins: [
     magicLink({
-      sendMagicLink: async ({ email, url }) => {
-        console.log(`Magic link for ${email}: ${url}`);
+      sendMagicLink: async ({ email, url }, request) => {
+        const resend = getResend();
+
+        const promise = resend.emails.send({
+          from: "Charry With an A <admin@charrywithana.com>",
+          to: email,
+          subject: "Magic",
+          text: `Click the link to Magic: ${url}`,
+        });
+
+        if (request) {
+          (request as any).waitUntil?.(promise);
+        } else {
+          void promise;
+        }
       },
     }),
   ],

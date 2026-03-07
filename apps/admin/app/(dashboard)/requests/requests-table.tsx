@@ -25,6 +25,7 @@ import {
 import { Textarea } from "@workspace/ui/components/textarea";
 import { Tabs, TabsList, TabsTrigger } from "@workspace/ui/components/tabs";
 import type { AppointmentRequest } from "@repo/db/schema";
+import { authClient } from "@repo/auth/auth-client";
 
 type Status = "all" | "pending" | "approved" | "rejected";
 

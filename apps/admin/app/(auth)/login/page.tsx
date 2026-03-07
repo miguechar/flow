@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useRouter } from "next/navigation";
 import { LeafIcon, Loader2Icon } from "lucide-react";
 import { toast } from "sonner";
@@ -15,31 +15,40 @@ import {
   CardTitle,
 } from "@workspace/ui/components/card";
 import { authClient } from "@repo/auth/auth-client";
+import { useMutation } from "@tanstack/react-query";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const toastId = useId();
   const [form, setForm] = useState({ email: "", password: "" });
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const res = await authClient.signIn.email({
+  const { mutate, isPending } = useMutation({
+    mutationFn: async () => {
+      toast.loading("Signing in...", { id: toastId });
+
+      const { data, error } = await authClient.signIn.email({
         email: form.email,
         password: form.password,
       });
-      if (res.error) {
-        toast.error(res.error.message ?? "Invalid credentials");
-      } else {
-        router.push("/");
+
+      if (error) {
+        throw new Error(error.message);
       }
-    } catch {
-      toast.error("Sign in failed. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  }
+
+      return data;
+    },
+    onSuccess: (data) => {
+      if ((data?.user as { role?: string } | undefined)?.role !== "admin") {
+        toast.error("Access denied.", { id: toastId });
+        return;
+      }
+      toast.dismiss(toastId);
+      router.push("/appointments");
+    },
+    onError: (error) => {
+      toast.error(error.message, { id: toastId });
+    },
+  });
 
   return (
     <div className="flex items-center justify-center min-h-screen px-4 bg-background">
@@ -58,7 +67,13 @@ export default function LoginPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                mutate();
+              }}
+              className="space-y-4"
+            >
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -82,8 +97,8 @@ export default function LoginPage() {
                   required
                 />
               </div>
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? (
+              <Button type="submit" className="w-full" disabled={isPending}>
+                {isPending ? (
                   <>
                     <Loader2Icon className="size-4 animate-spin" />
                     Signing in...

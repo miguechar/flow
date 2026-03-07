@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { adminAuth } from "@repo/auth/auth";
+import { adminAuth, webAuth } from "@repo/auth/auth";
 import { appointmentRequests } from "@repo/db/schema";
 import { db } from "@repo/db/db";
 import { eq } from "@repo/db/drizzle";
@@ -48,32 +48,19 @@ export async function PATCH(
     })
     .where(eq(appointmentRequests.id, id));
 
-  // If approved, send a magic link to the client
   if (data.status === "approved") {
-    // Use BetterAuth's magic link to send the client their booking link
-    // In production: integrate with your email provider
-    console.log(
-      `[Admin] Approved request for ${request.email}. ` +
-        `Send magic link: POST /api/auth/magic-link with email=${request.email}`,
-    );
+    /**
+     * Create an account for a client and send them a link to sign in.
+     * From there, they will choose to sign in with they magic link
+     */
 
-    // Trigger the magic link for the client via BetterAuth internal call
-    try {
-      await fetch(
-        `${process.env["NEXT_PUBLIC_WEB_URL"] ?? "http://localhost:3000"}/api/auth/magic-link`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: request.email,
-            callbackURL: "/book",
-          }),
-        },
-      );
-    } catch {
-      // Non-fatal — log and continue
-      console.error("Failed to send magic link to client");
-    }
+    await webAuth.api.signUpEmail({
+      body: {
+        email: request.email as string,
+        password: crypto.randomUUID(),
+        name: request.name as string,
+      },
+    });
   }
 
   return NextResponse.json({ success: true });

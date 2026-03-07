@@ -1,20 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  // const { pathname } = request.nextUrl;
 
-  // Allow login page and API routes through
-  if (pathname.startsWith("/login") || pathname.startsWith("/api")) {
-    return NextResponse.next();
-  }
+  // // Allow login page and API routes through
+  // if (pathname.startsWith("/login") || pathname.startsWith("/api")) {
+  //   return NextResponse.next();
+  // }
 
-  const sessionCookie =
-    request.cookies.get("better-auth.session_token") ??
-    request.cookies.get("__Secure-better-auth.session_token");
+  // const sessionCookie =
+  //   request.cookies.get("better-auth.session_token") ??
+  //   request.cookies.get("__Secure-better-auth.session_token");
 
-  if (!sessionCookie) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
+  // if (!sessionCookie) {
+  //   return NextResponse.redirect(new URL("/login", request.url));
+  // }
 
   return NextResponse.next();
 }
