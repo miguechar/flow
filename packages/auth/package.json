@@ -6,7 +6,8 @@
   "exports": {
     "./auth-client": "./src/auth-client.ts",
     "./auth": "./src/auth.ts",
-    "./next-js": "./src/next-js.ts"
+    "./next-js": "./src/next-js.ts",
+    "./resend": "./src/lib/resend.ts"
   },
   "license": "ISC",
   "dependencies": {
