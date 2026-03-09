@@ -55,26 +55,38 @@ export async function PATCH(
      * From there, they will choose to sign in with they magic link
      */
 
-    await webAuth.api.signUpEmail({
+    const magicLink = await webAuth.api.signInMagicLink({
       body: {
         email: request.email as string,
-        password: crypto.randomUUID(),
         name: request.name as string,
+        callbackURL: "/login",
       },
+      headers: await headers(),
     });
 
-    const resend = getResend();
-    const promise = resend.emails.send({
-      from: "Charry With an A <admin@charrywithana.com>",
-      to: request.email as string,
-      subject: "Welcome to Charry With an A",
-      text: `Welcome to Charry With an A! Click the link to sign in`,
-    });
-    if (request) {
-      (request as any).waitUntil?.(promise);
-    } else {
-      void promise;
-    }
+    console.log("magicLink", magicLink);
+
+    //   await webAuth.api.signUpEmail({
+    //     body: {
+    //       email: request.email as string,
+    //       password: crypto.randomUUID(),
+    //       name: request.name as string,
+    //     },
+    //   });
+
+    //   const resend = getResend();
+    //   const promise = resend.emails.send({
+    //     from: "Charry With an A <admin@charrywithana.com>",
+    //     to: request.email as string,
+    //     subject: "Welcome to Charry With an A",
+    //     text: `Welcome to Charry With an A! Click the link to sign in`,
+    //   });
+    //   if (request) {
+    //     (request as any).waitUntil?.(promise);
+    //   } else {
+    //     void promise;
+    //   }
+    // }}
   }
 
   return NextResponse.json({ success: true });
