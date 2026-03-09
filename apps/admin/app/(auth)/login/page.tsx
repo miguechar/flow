@@ -43,7 +43,7 @@ export default function LoginPage() {
         return;
       }
       toast.dismiss(toastId);
-      router.push("/appointments");
+      router.push("/");
     },
     onError: (error) => {
       toast.error(error.message, { id: toastId });
