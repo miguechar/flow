@@ -34,14 +34,14 @@ export const webAuth = betterAuth({
   emailAndPassword: { enabled: true },
   plugins: [
     magicLink({
-      sendMagicLink: async ({ email, url }, request) => {
+      sendMagicLink: async ({ email, token }, request) => {
         const resend = getResend();
 
         const promise = resend.emails.send({
           from: "Charry With an A <admin@charrywithana.com>",
           to: email,
           subject: "Magic",
-          text: `Click the link to Magic: ${url}`,
+          text: `Click the link to Magic: ${process.env.BETTER_AUTH_WEB_URL}/api/auth/magic-link?token=${token}/book`,
         });
 
         if (request) {
