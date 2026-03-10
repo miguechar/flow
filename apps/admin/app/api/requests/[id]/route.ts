@@ -55,16 +55,13 @@ export async function PATCH(
      * From there, they will choose to sign in with they magic link
      */
 
-    const magicLink = await webAuth.api.signInMagicLink({
+    await webAuth.api.signInMagicLink({
       body: {
         email: request.email as string,
-        name: request.name as string,
-        callbackURL: "/login",
+        callbackURL: "/book",
       },
       headers: await headers(),
     });
-
-    console.log("magicLink", magicLink);
 
     //   await webAuth.api.signUpEmail({
     //     body: {

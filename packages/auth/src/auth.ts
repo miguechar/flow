@@ -30,18 +30,18 @@ const sharedConfig = {
 
 export const webAuth = betterAuth({
   ...sharedConfig,
-  baseURL: process.env["BETTER_AUTH_URL"] ?? "http://localhost:3000",
+  baseURL: process.env["BETTER_AUTH_WEB_URL"] ?? "http://localhost:3000",
   emailAndPassword: { enabled: true },
   plugins: [
     magicLink({
-      sendMagicLink: async ({ email, token }, request) => {
+      sendMagicLink: async ({ email, url }, request) => {
         const resend = getResend();
 
         const promise = resend.emails.send({
           from: "Charry With an A <admin@charrywithana.com>",
           to: email,
-          subject: "Magic",
-          text: `Click the link to Magic: ${process.env.BETTER_AUTH_WEB_URL}/api/auth/magic-link?token=${token}/book`,
+          subject: "Your booking link",
+          text: `Click the link to book your appointment: ${url}`,
         });
 
         if (request) {
