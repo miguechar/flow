@@ -1,4 +1,4 @@
-import { webAuth } from "@repo/auth/auth";
+import { adminAuth } from "@repo/auth/auth";
 import { toNextJsHandler } from "@repo/auth/next-js";
 
-export const { GET, POST } = toNextJsHandler(webAuth);
+export const { GET, POST } = toNextJsHandler(adminAuth);
