@@ -6,6 +6,12 @@ import * as schema from "@repo/db/schema";
 import { getResend } from "./lib/resend";
 
 const sharedConfig = {
+  trustedOrigins: [
+    process.env["BETTER_AUTH_WEB_URL"] ?? "http://localhost:3000",
+    process.env["NEXT_PUBLIC_BETTER_AUTH_URL"] ?? "http://localhost:3001",
+    "https://admin.charrywithana.com",
+    "https://flow.charrywithana.com",
+  ],
   database: drizzleAdapter(db, {
     provider: "pg",
     schema: {
