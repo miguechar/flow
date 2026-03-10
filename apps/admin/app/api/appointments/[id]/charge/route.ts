@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminAuth } from "@repo/auth/auth";
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import { appointments } from "@repo/db/schema";
 import { db } from "@repo/db/db";
 import { eq } from "@repo/db/drizzle";
@@ -50,7 +50,7 @@ export async function POST(
     );
   }
 
-  const paymentIntent = await stripe.paymentIntents.create({
+  const paymentIntent = await getStripe().paymentIntents.create({
     amount: Math.round(amount * 100), // convert to cents
     currency: "usd",
     customer: appointment.stripeCustomerId,
