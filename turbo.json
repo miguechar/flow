@@ -5,7 +5,16 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [".next/**", "!.next/cache/**"],
+      "env": [
+        "BETTER_AUTH_SECRET",
+        "BETTER_AUTH_WEB_URL",
+        "ADMIN_AUTH_URL",
+        "DATABASE_URL",
+        "RESEND_API_KEY",
+        "STRIPE_SECRET_KEY",
+        "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY"
+      ]
     },
     "lint": {
       "dependsOn": ["^lint"]
